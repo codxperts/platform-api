@@ -8,6 +8,22 @@ use Illuminate\Routing\Controller;
 
 class CustomerController extends Controller
 {
+
+    public function redirectToProvider()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleProviderCallback()
+    {
+        try {
+            $user = Socialite::driver('google')->user();
+        } catch (\Exception $e) {
+            return redirect('/login');
+        }
+        dd($user);
+    }
+
     /**
      * Display a listing of the resource.
      * @return Response
