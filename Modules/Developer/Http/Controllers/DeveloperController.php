@@ -2,11 +2,16 @@
 
 namespace Modules\Developer\Http\Controllers;
 
+use App\Entities\Invitation;
+use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
+use Mockery\Exception;
+use Modules\Developer\Events\InviteFriend;
+use Modules\Developer\Http\Requests\InvitationRequest;
 
-class DeveloperController extends Controller
+
+class DeveloperController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -68,5 +73,27 @@ class DeveloperController extends Controller
      */
     public function destroy()
     {
+    }
+
+    public function inviteToFriend(InvitationRequest $request)
+    {
+
+        $activation_token = rand(10000, 99999);
+
+        try{
+
+            $invitation = Invitation::create([
+                'invited_to_name' => $request->user,
+                'invited_to_email' => $request->email,
+                'invited_by' => auth()->user()->id,
+                'activation_token' => bcrypt($activation_token)
+            ]);
+
+            event(new InviteFriend($invitation, $activation_token));
+
+            return $this->respond(['message'=>'Invitation has been sent!']);
+        }catch(Exception $e){
+            return $this->respondInternalError($e->getMessage());
+        }
     }
 }
