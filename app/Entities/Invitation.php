@@ -49,4 +49,19 @@ class Invitation extends Model
         return $query->orderBy($sort_by, $order);
 
     }
+
+    public function statusNote()
+    {
+        if($this->accepted){
+            return;
+        }
+        if($this->created_at->addDays(2)->lt(Carbon::now())){
+            return 'Expired';
+        } else if($this->created_at->addHours(12)->lt(Carbon::now())){
+            $time_left = $this->created_at->addHours(12)->diffInHours(Carbon::now());
+            return 'Left '.$time_left;
+        } else {
+            return 'Active';
+        }
+    }
 }

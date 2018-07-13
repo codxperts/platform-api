@@ -18,10 +18,11 @@ class InvitationCollection extends ResourceCollection
             'data' => $this->collection->map(function($invitation){
                 return [
                     'number' => $invitation->id,
-                    'invited_to_name' => $invitation->invited_to_name,
-                    'invited_to_email' => $invitation->invited_to_email,
+                    'name' => $invitation->invited_to_name,
+                    'email' => $invitation->invited_to_email,
                     'created_at' => $invitation->created_at->format('m/d/Y H:i'),
-                    'accepted' => $invitation->accepted
+                    'accepted' => $invitation->accepted,
+                    'info' => $invitation->statusNote()
                 ];
             }),
             'links' => []

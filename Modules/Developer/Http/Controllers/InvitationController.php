@@ -21,7 +21,7 @@ class InvitationController extends ApiController
     public function index(Request $request)
     {
 
-        return new InvitationCollection(Invitation::search($request)->paginate(10));
+        return new InvitationCollection(Invitation::search($request)->paginate(20));
     }
 
     /**
