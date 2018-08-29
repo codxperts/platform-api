@@ -2,6 +2,7 @@
 
 namespace Modules\Customer\Http\Controllers;
 
+use App\Entities\Invitation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -28,8 +29,9 @@ class CustomerController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function index()
+    public function index(Invitation $invitation)
     {
+        return $invitation;
         return view('customer::index');
     }
 

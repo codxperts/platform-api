@@ -9,7 +9,11 @@ use Illuminate\Http\Request;
 class Invitation extends Model
 {
     protected $fillable = [
-        'invited_to_name', 'invited_to_email', 'invited_by', 'email_token', 'activation_token'
+        'invited_to_name',
+        'invited_to_email',
+        'invited_by',
+        'email_token',
+        'activation_token'
     ];
 
     public static function isValidNewInvitation($email)
@@ -20,7 +24,6 @@ class Invitation extends Model
 
         return $count === 0;
     }
-
 
     public function scopeSearch($query, Request $search)
     {
@@ -64,4 +67,10 @@ class Invitation extends Model
             return 'Active';
         }
     }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }
