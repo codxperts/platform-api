@@ -34,7 +34,7 @@ class Invitation extends Model
         );
 
         $sortable_fields = ['invited_to_name','created_at','invited_to_email'];
-        $sort_by = 'invited_to_name';
+        $sort_by = 'created_at';
 
         if (in_array($search->get('sortBy'), $sortable_fields)) {
             $sort_by = $search->get('sortBy');
@@ -44,7 +44,7 @@ class Invitation extends Model
             'descending' => 'DESC',
         ];
 
-        $order = $sort_order[$search->get('order', 'ascending')];
+        $order = $sort_order[$search->get('order', 'descending')];
 
         return $query->orderBy($sort_by, $order);
 

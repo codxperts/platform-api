@@ -6,7 +6,6 @@ use App\Entities\Invitation;
 use App\Http\Controllers\ApiController;
 use App\Http\Resources\InvitationCollection;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Mockery\Exception;
 use Modules\Developer\Events\InviteFriend;
 use Modules\Developer\Http\Requests\InvitationRequest;
@@ -21,7 +20,12 @@ class InvitationController extends ApiController
     public function index(Request $request)
     {
 
-        return new InvitationCollection(Invitation::search($request)->paginate(20));
+        $page_size = $request->get('pageSize', 20);
+
+        $invitations = Invitation::search($request)
+            ->paginate($page_size);
+        
+        return new InvitationCollection($invitations);
     }
 
     /**
