@@ -22,7 +22,10 @@ class InvitationController extends ApiController
 
         $page_size = $request->get('pageSize', 20);
 
-        $invitations = Invitation::search($request)
+        $invitations = auth()
+            ->user()
+            ->invitations()
+            ->search($request)
             ->paginate($page_size);
         
         return new InvitationCollection($invitations);
